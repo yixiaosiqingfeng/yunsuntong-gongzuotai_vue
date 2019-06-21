@@ -1,0 +1,25 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1560999163786'); /* IE9 */
+  src: url('iconfont.eot?t=1560999163786#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAO8AAsAAAAACAgAAANvAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDBgqDbIM7ATYCJAMMCwgABCAFhG0HPBsHB8gOJTWMVJWtDllAPIBzfb00mf5uuggsgdEuK0ShEPQx2BOGhb+50qUrI9b2nAmk/ZOBKIRK7qXVP5/mdMY+FXaZNJ1TEndOUWKVCungcGlTfB5QLnNsjQKOAwpojSlcIL0g/zB2QUucT0DWVzdj8dLVY1AkMZsFhCMHYwKKMnZJYqFKUFb0TcJtDVVxpTgAbgXfD//BxFBRaERm2xX75jyY/HPsnyPxQvOCLR4CYzot2CAiRgOJsK1Sv0Fu5B8tV1b5ec2xpSQopnI1mwR0jVta//AoBELJTG4NhqNAwZ9jHXoimAWZV/2XEZToDTwFvpygPEn3zkajrMqU7KxWZZVSTN1jhnn2uH2V8fDjtHaPfqhLD95Nbr12XXmjrbWxXdF6b/3g9fB8urYq5FCfCnlVm2I/qth6s9JwJNSy9a4217A11GEN11u2nsvkcu40RhW0mOLY12R1D2kOUGquTo24uzG/f4VgcktBpjq5D7JaELYxxLF3nw2/3q6d9uz/hNDktf3P8sLFLx5/PeH/X1tBQX30RdPAW5P33of6f9+bcBP2j+XW0v73r3Bs3eHjJ46csNl3s8zC+evOBHT8K467Vn+/cxFf4ATHfbpjAl6vENt7EU3kvT33EG70zpxkeld6Jxt7xnG0xOOW7cM48ihH6uFAYh7YXGrZubX7snOt9hbuQPxio+0a/aRPI+2lkQtRuXrzjNnmPXn449cNU/L4ntPYfIDmj/GTOPJbf+Pu9vKS7e1m/yiqE/hjQpd/QZ/m/QTxAioFnRk/kdExL2ksUxGTQnfoRii6BN1fUaIs49elQ0evhxu7gEQbVJwBodCiD0SVwciEHQ0NtclQqsyDbJSFwbVOlFwhtcJIlwAE7e1Doa3PIGrvJTJhX0FDVx+g1D5EyNaFTmPWhoaDedEpEpo8Ft1lCVdmfVulS8LUIxTbTAuVZgW4E6TChItxK5IPLVCW1BQdwq2YrbXPfCUzbB4sRum0ZIGSSXK1Fdc6GEb0q25kuTIDJRZRiKARDxO1i0lwSVm+V1grKXz+CBKzKU1QDTlV8hOIEkqUznCWSAfkAj/bKedWDgltibFpmo/xKVIGMw+0JG35JSaorpVEXJolPiA9MAzhMqyufGt5Yeb9FkFmbhNDEWJIWvYcFNmskEV7T21TIiM4AAA=') format('woff2'),
+  url('iconfont.woff?t=1560999163786') format('woff'),
+  url('iconfont.ttf?t=1560999163786') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1560999163786#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-diannao:before {
+  content: "\e63b";
+}
+
+.icon-erweima1:before {
+  content: "\e62e";
+}
+
