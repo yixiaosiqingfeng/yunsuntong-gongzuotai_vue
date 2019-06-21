@@ -45,18 +45,18 @@
           <img src alt>
         </div>
         <div class="host_header_right_btn">
-          <el-button type="primary" size="mini">切换身份</el-button>
-          <el-button type="primary" size="mini">退出系统</el-button>
+          <el-button type="primary" size="mini" @click="changeIden">切换身份</el-button>
+          <el-button type="primary" size="mini" @click="logout">退出系统</el-button>
         </div>
       </el-col>
     </el-row>
     <!-- 天气展示页面 -->
-    <div class="host_header_weather" v-if="sta">
-      
-    </div>
+    <div v-if="sta" class="host_header_weather" />
   </div>
 </template>
 <script>
+import { removeRoles } from '@/utils/auth'
+
 export default {
   name: 'AnchorHeader',
   data() {
@@ -73,99 +73,121 @@ export default {
       },
       // 天气信息
       weather: {},
-      sta:false
+      sta: false
     }
   },
-  methods:{
-    getWeather(){
-      this.sta=true;
+  methods: {
+    getWeather() {
+      this.sta = true
     },
-    leave(){
-       this.sta=false;
+    leave() {
+      this.sta = false
+    },
+    logout() {
+      this.$store.dispatch('user/logout').then(() => {
+        location.reload()
+      })
+    },
+    async changeIden() {
+      await removeRoles()
+      await this.$router.push({ path: '/auth-redirect' })
+      location.reload()
     }
   }
 }
 </script>
 <style scoped>
-.host_header {
-  /* height: 50px; */
-  border: 1px solid #ccc;
-}
-.host_header_left {
-  position: relative;
-  width: 67%;
-}
-.host_header_right {
-  position: relative;
-  width: 33%;
-}
-.host_header_left_logo {
-  display: inline-block;
-  background-color: #ccc;
-  height: 30px;
-  width: 45px;
-  margin: 5px 16px;
-}
-.host_header_left_text {
-  position: absolute;
-  top: 9px;
-  left: 75px;
-  font-size: 20px;
-}
-.host_header_left_rem {
-  position: absolute;
-  top: 11px;
-  left: 145px;
-  font-size: 16px;
-}
-.host_header_left_btn {
-  padding: 5px;
-  background-color: #169bd5;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-}
-.host_header_right_weather {
-  width: 100px;
-  height: 30px;
-  margin-top: 3px;
-}
-.weather_icon {
-  position: relative;
-  width: 40px;
-  height: 30px;
-  background-color: red;
-  cursor: pointer;
-}
+  .host_header {
+    /* height: 50px; */
+    border: 1px solid #ccc;
+  }
 
-.weather_text {
-  position: absolute;
-  top: 4px;
-  left: 44px;
-}
-.host_header_right_time {
-  position: absolute;
-  top: -8px;
-  left: 111px;
-}
-.host_header_right_photo {
-  display: inline-block;
-  background-color: #ccc;
-  height: 35px;
-  width: 35px;
-  position: absolute;
-  top: 3px;
-  left: 286px;
-  border-radius: 50%;
-}
-.host_header_right_btn {
-  position: absolute;
-  top: 6px;
-  right: 85px;
-}
-.host_header_weather{
-  background-color: pink;
-  height: 100px;
-}
+  .host_header_left {
+    position: relative;
+    width: 67%;
+  }
+
+  .host_header_right {
+    position: relative;
+    width: 33%;
+  }
+
+  .host_header_left_logo {
+    display: inline-block;
+    background-color: #ccc;
+    height: 30px;
+    width: 45px;
+    margin: 5px 16px;
+  }
+
+  .host_header_left_text {
+    position: absolute;
+    top: 9px;
+    left: 75px;
+    font-size: 20px;
+  }
+
+  .host_header_left_rem {
+    position: absolute;
+    top: 11px;
+    left: 145px;
+    font-size: 16px;
+  }
+
+  .host_header_left_btn {
+    padding: 5px;
+    background-color: #169bd5;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .host_header_right_weather {
+    width: 100px;
+    height: 30px;
+    margin-top: 3px;
+  }
+
+  .weather_icon {
+    position: relative;
+    width: 40px;
+    height: 30px;
+    background-color: red;
+    cursor: pointer;
+  }
+
+  .weather_text {
+    position: absolute;
+    top: 4px;
+    left: 44px;
+  }
+
+  .host_header_right_time {
+    position: absolute;
+    top: -8px;
+    left: 111px;
+  }
+
+  .host_header_right_photo {
+    display: inline-block;
+    background-color: #ccc;
+    height: 35px;
+    width: 35px;
+    position: absolute;
+    top: 3px;
+    left: 286px;
+    border-radius: 50%;
+  }
+
+  .host_header_right_btn {
+    position: absolute;
+    top: 6px;
+    right: 85px;
+  }
+
+  .host_header_weather {
+    background-color: pink;
+    height: 100px;
+  }
 </style>

@@ -16,7 +16,6 @@ router.beforeEach(async(to, from, next) => {
   NProgress.start()
   // set page title
   document.title = getPageTitle(to.meta.title)
-
   // determine whether the user has logged in
   const hasToken = getToken()
 
@@ -29,7 +28,16 @@ router.beforeEach(async(to, from, next) => {
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
-        next()
+        if (getRoles()) {
+          if (to.path === '/auth-redirect' || to.path === '/404') {
+            next({ path: '/' })
+            NProgress.done()
+          } else {
+            next()
+          }
+        } else {
+          next()
+        }
       } else {
         try {
           // get user info
@@ -55,7 +63,6 @@ router.beforeEach(async(to, from, next) => {
               tokenRoles = JSON.parse(decrypt(getRoles()))
             }
             if (tokenRoles) {
-              console.log(to)
               next({ ...to, replace: true })
             } else {
               next({ path: '/auth-redirect' })
