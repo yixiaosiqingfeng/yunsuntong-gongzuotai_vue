@@ -13,7 +13,9 @@ export default {
   body {
     font-size: 14px;
   }
-
+  .tac{
+    text-align:center;
+  }
   .ml5 {
     margin-left: 5px;
   }

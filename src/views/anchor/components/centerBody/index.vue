@@ -15,7 +15,9 @@
       <el-menu-item index="myPriLet">我的私信</el-menu-item>
     </el-menu>
     <transition name="fade-transform" mode="out-in">
-      <component :is="activeIndex" />
+      <keep-alive>
+        <component :is="activeIndex" />
+      </keep-alive>
     </transition>
   </div>
 </template>

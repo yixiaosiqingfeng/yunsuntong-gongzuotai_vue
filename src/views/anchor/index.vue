@@ -4,14 +4,14 @@
       <oheader />
     </div>
     <div class="bigBox" style="margin-top:15px;">
-      <div class="box" style="position:relative;background-color:#fff;margin:0 10px;" :style="{width:leftW+'px'}">
+      <div class="box" style="position:relative;background-color:#fff;margin:0 10px;min-width:300px;" :style="{width:leftW+'px'}">
         <div style="position:absolute;right:-15px;top:0;bottom:0;width:15px;cursor:e-resize;" @mousedown="leftMove" />
         <leftBody />
       </div>
-      <div class="box" style="flex:1;background-color:#fff;margin:0 5px;padding:0 10px;">
+      <div class="box" style="flex:1;background-color:#fff;margin:0 5px;padding:0 10px;min-width:600px;">
         <centerBody />
       </div>
-      <div class="box" style="position:relative;background-color:#fff;margin:0 10px;" :style="{width:rightW+'px'}">
+      <div class="box" style="position:relative;background-color:#fff;margin:0 10px;min-width:300px;" :style="{width:rightW+'px'}">
         <div style="position:absolute;left:-15px;top:0;bottom:0;width:15px;cursor:e-resize;" @mousedown="rightMove" />
         <rightBody />
       </div>
