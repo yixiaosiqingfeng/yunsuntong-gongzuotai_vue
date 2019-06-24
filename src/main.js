@@ -18,7 +18,13 @@ import './permission' // permission control
 import './utils/error-log' // error log
 import './assets/ali_icon/iconfont.css'
 
+
 import * as filters from './filters' // global filters
+//引入axios
+import axios from 'axios'
+Vue.prototype.$ajax= axios
+//引入天气图标
+import '../src/assets/weather_icon/iconfont.css'
 
 /**
  * If you don't want to use mock-server
