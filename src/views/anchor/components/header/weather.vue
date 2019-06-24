@@ -1,50 +1,57 @@
 <template>
-  <div class="weather">
-    <div class="weather_one" v-for="(item,index,) in res" :key="index">
-      <span>时间：{{item.date}}&nbsp;&nbsp;{{item.week}}</span><br/>
-      <span>温度：{{item.tem2}}~{{item.tem1}}</span><br/><span>天气：{{item.wea}}</span><br/>
+  <div class="weatherBox">
+    <div v-for="(item,index,) in res" :key="index" style="flex:1;display:flex;align-items: center;font-size:12px;justify-content: center;">
+      <div>
+        <span class="iconfont" :class="tianqiIcon(item.wea_img)" style="font-size:50px;color:#fff;" />
+      </div>
+      <div style="line-height:20px;" class="ml10">
+        <div>{{ item.tem }}-{{ item.tem2 }}<span class="ml10">{{ item.wea }}</span></div>
+        <div>{{ item.week }}<span class="ml10">{{ item.date }}</span></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name:'weather',
-  data(){
-    return{
-      res:[]
+  name: 'Weather',
+  data() {
+    return {
+      res: []
     }
   },
-  methods:{
-   getweather(){
-    this.$ajax.get('https://www.tianqiapi.com/api/?version=v1&city=佛山')
-      .then((response)=>{
-        console.log(response)
-        this.res=response.data.data
-        
-        }).catch((response)=>{
-          console.log(response);
-    })
-   }
+  mounted() {
+    this.getweather()
   },
-  mounted(){
-   this.getweather()
+  methods: {
+    getweather() {
+      this.$ajax.get('https://www.tianqiapi.com/api/?version=v1&city=中国')
+        // this.$ajax.get('http://wthrcdn.etouch.cn/weather_mini?city=北京市')
+        .then((response) => {
+          console.log(JSON.parse(JSON.stringify(response.data.data)))
+          this.res = response.data.data
+        }).catch((response) => {
+          console.log(response)
+        })
+    },
+    tianqiIcon(str) {
+      switch (str) {
+        case 'yun':
+          return 'icon-yintian'
+        case 'lei':
+          return 'icon-tianqi1'
+        default:
+          return 'icon-tianqi2'
+      }
+    }
   }
 }
 </script>
 <style scoped>
-.weather{
-  height: 100px;
-  width: 100%;
-  display: flex;
-  /* background-color:red; */
-  color: #fff;
-}
-.weather .weather_one{
-  width: 14.28%;
-}
-.weather_one{
-  background-color:#000;
-  opacity: 0.5;
-}
+  .weatherBox {
+    flex:1;
+    display: flex;
+    align-items: center;
+    color:#dee74c;
+  }
 </style>

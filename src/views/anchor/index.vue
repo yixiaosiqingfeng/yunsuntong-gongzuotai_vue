@@ -1,6 +1,6 @@
 <template>
   <div class="anchor" style="height:100%;">
-    <div style="height:40px;">
+    <div>
       <oheader />
     </div>
     <div class="bigBox" style="margin-top:15px;">
@@ -88,7 +88,7 @@ export default {
 <style lang="scss" scoped>
   .bigBox {
     display: flex;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 46px);
   }
 
   .box {

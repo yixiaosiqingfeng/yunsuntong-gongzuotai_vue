@@ -1,233 +1,177 @@
 <template>
-  <div>
-    <!-- 主持人首页导航 -->
-    <el-row class="host_header" type="flex" justify="space-between">
-      <!-- 左边导航 -->
-      <el-col class="host_header_left">
-        <div class="host_header_left_logo">
-          logo
-          <img src alt>
-          <div class="host_header_left_text">
-            <span>畅驾</span>
-          </div>
+  <div class="hedaer-nav">
+    <div class="logo">
+      <img
+        style="position:absolute;top:2px;left:20px;"
+        width="30"
+        height="25"
+        src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561354316179&di=51bc41816e77fb01902e495de76f12de&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F12%2F07%2F19%2F64D58PIC9Eu.jpg"
+        alt="logo"
+      >
+      <span class="ml40">畅驾</span>
+      <span class="ml10">一路乐逍遥直播...</span>
+      <span class="ml10">下个节目:同步新空气</span>
+      <span class="ml10">距离我的节目还有：12:55</span>
+      <el-button class="ml10" type="text" size="mini">进入直播间</el-button>
+    </div>
+    <div class="mr20" style="display:flex;align-items: center;">
+      <div style="display:flex;align-items: center;">
+        <span>城市:</span>
+        <el-cascader
+          v-model="value"
+          size="mini"
+          :options="options"
+          :show-all-levels="false"
+          @change="cityFn"
+        />
+        <div class="tianqi" @mouseover="tianqiFlag=true" @mouseout="tianqiFlag=false">
+          <span class="iconfont icon-tianqi4" style="font-size:22px;" />
+          <span>27°C</span>
         </div>
-
-        <div class="host_header_left_rem">
-          <span>
-           <span class="liveing"> {{ liveing }}</span>&nbsp;&nbsp;正在直播中... 下一个节目：同步新空气 &nbsp;&nbsp;距离我的节目时间还有：
-            {{ countTime.hour }}小时{{ countTime.minute }}分{{ countTime.second }}秒 &nbsp;&nbsp;
-            <span
-              class="host_header_left_btn"
-            >进入直播间</span>
-          </span>
-        </div>
-      </el-col>
-      <!-- 右边导航 -->
-      <el-col class="host_header_right">
-        <div class="host_header_right_weather">
-          <div class="weather_icon" @mouseenter="getWeather" @mouseleave="weatherFlag='2'">
-            <!-- <i class="el-icon-sunrise-1"></i> -->
-            <!-- 天气图标 -->
-            <i class="iconfont icontianqitubiao_yujiaxue"></i>
-          </div>
-          <div class="weather_text">
-            <span>雷阵雨</span>
-            <br>
-            <span>35~27℃</span>
-          </div>
-        </div>
-
-        <div class="host_header_right_time">
-          <h2>2019/6/17&nbsp;09:02</h2>
-        </div>
-
-        <div class="host_header_right_photo">
-          头像
-          <img src alt>
-        </div>
-        <div class="host_header_right_btn">
-          <el-button type="primary" size="mini" @click="changeIden">切换身份</el-button>
-          <el-button type="primary" size="mini" @click="logout">退出系统</el-button>
-        </div>
-      </el-col>
-    </el-row>
-    <!-- 天气展示页面 -->
-    <!-- <transition name="el-zoom-in-top">
-    <weather v-show="sta" class="{start:phoneFlag==='1',end:phoneFlag==='2'}"/> 
-    </transition>-->
-    <div :class="{start:weatherFlag==='1',end:weatherFlag==='2'}" v-show="weatherFlag">
-      <weather/>
+      </div>
+      <span class="ml10">2019/08/21 09:05</span>
+      <div class="ml10 mr10" style="width:30px;height:30px;border-radius:50%;overflow:hidden;">
+        <img
+          width="100%"
+          height="100%;"
+          style="vertical-align: center;"
+          src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1561355336834&di=f1f0a459cfd2f5f4144759c696c27048&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F7e9b8f8bbc3a8d4a6b609b8fe9d96736a1b21b9b6ae58-noTpYs_fw658"
+          alt="头像"
+        >
+      </div>
+      <el-button type="text" size="mini" @click="changeIden">切换身份</el-button>
+      <el-button type="text" size="mini" @click="logout">退出系统</el-button>
+    </div>
+    <div class="weather" :class="{tianqiOver:tianqiFlag,tianqiOut:!tianqiFlag}" @mouseover="tianqiFlag=true" @mouseout="tianqiFlag=false">
+      <weather />
     </div>
   </div>
 </template>
 <script>
-import { removeRoles } from "@/utils/auth";
-import weather from "./weather";
+import { removeRoles } from '@/utils/auth'
+import weather from './weather'
 
 export default {
-  name: "AnchorHeader",
+  name: 'AnchorHeader',
   components: { weather },
   data() {
     return {
-      // 正在直播的节目名称
-      liveing: "一路乐逍遥",
-      // 下一个直播节目名称
-      nextLive: "同步新空气",
-      // 下一节目倒计时
-      countTime: {
-        hour: "1",
-        minute: "50",
-        second: "23"
-      },
-      // 天气信息
-      weather: {},
-      //天气页面
-      weatherFlag: false
-    };
+      weatherFlag: false,
+      tianqiFlag: false,
+      value: [
+        '广东', '佛山'
+      ],
+      options: [
+        {
+          value: '北京',
+          label: '北京',
+          children: [
+            {
+              value: '朝阳',
+              label: '朝阳'
+            }
+          ]
+        },
+        {
+          value: '广东',
+          label: '广东',
+          children: [
+            {
+              value: '佛山',
+              label: '佛山'
+            },
+            {
+              value: '广州',
+              label: '广州'
+            }
+          ]
+        }
+      ]
+    }
   },
   methods: {
-    getWeather() {
-      this.weatherFlag = "1";
-    },
     logout() {
-      this.$store.dispatch("user/logout").then(() => {
-        location.reload();
-      });
+      this.$store.dispatch('user/logout').then(() => {
+        location.reload()
+      })
     },
     async changeIden() {
-      await removeRoles();
-      await this.$router.push({ path: "/auth-redirect" });
-      location.reload();
+      await removeRoles()
+      await this.$router.push({ path: '/auth-redirect' })
+      location.reload()
+    },
+    cityFn(val) {
+      console.log(val)
     }
   }
-};
+}
 </script>
+
 <style scoped>
-.host_header {
-  /* height: 50px; */
-  border: 1px solid #ccc;
-  position: relative;
-  background-color: #ccc;
-}
+  .hedaer-nav {
+    height: 30px;
+    /*line-height: 30px;*/
+    background-color: #555;
+    color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px #555;
+  }
 
-.host_header_left {
-  position: relative;
-  width: 67%;
-}
+  .logo {
+    margin-left: 20px;
+  }
 
-.host_header_right {
-  position: relative;
-  width: 33%;
-}
-
-.host_header_left_logo {
-  display: inline-block;
-  background-color: #ccc;
-  height: 30px;
-  width: 45px;
-  margin: 5px 16px;
-}
-
-.host_header_left_text {
-  position: absolute;
-  top: 9px;
-  left: 75px;
-  font-size: 20px;
-}
-
-.host_header_left_rem {
-  position: absolute;
-  top: 11px;
-  left: 145px;
-  font-size: 16px;
-}
-
-.host_header_left_btn {
-  padding: 5px;
-  background-color: #169bd5;
-  border-radius: 5px;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.host_header_right_weather {
-  width: 100px;
-  height: 30px;
-  margin-top: 3px;
-}
-
-.weather_icon {
-  position: relative;
-  width: 40px;
-  height: 30px;
-  /* background-color: red; */
-  cursor: default;
-}
-.weather_icon i{
-  font-size: 30px;
-}
-.weather_text {
-  position: absolute;
-  top: 4px;
-  left: 37px;
-}
-
-.host_header_right_time {
-  position: absolute;
-  top: -8px;
-  left: 111px;
-}
-
-.host_header_right_photo {
-  display: inline-block;
-  background-color: #ccc;
-  height: 35px;
-  width: 35px;
-  position: absolute;
-  top: 3px;
-  left: 286px;
-  border-radius: 50%;
-}
-
-.host_header_right_btn {
-  position: absolute;
-  top: 6px;
-  right: 85px;
-}
-.liveing{
-  color: red;
-}
-/* 缓慢显示动画 */
-.start {
-  display: block;
-  animation: strat 0.5s;
-  animation-fill-mode: forwards;
-}
-.end {
-  display: block;
-  animation: end 0.5s;
-  animation-fill-mode: forwards;
-}
-@keyframes strat {
-  0% {
-    opacity: 0;
+  .weather {
+    position: absolute;
+    height: 60px;
+    width: 100%;
+    top: -60px;
+    left: 0;
+    z-index: 10000;
+    /*background-color: rgba(25, 231, 239, 0.5);*/
+    background-color: rgba(0, 0, 0, 0.5);
+    display:flex;
+    align-items: center;
+  }
+  .tianqi{
+    cursor:pointer;
+  }
+  .tianqiOver{
+    transform: translateY(60px);
+    transition: 0.8s;
+  }
+  .tianqiOut{
     transform: translateY(0);
+    transition: 0.8s;
   }
-  100% {
-    opacity: 1;
-    transform: translateY(10px);
+
+</style>
+<style lang="scss">
+  .hedaer-nav {
+
+    .el-input__inner {
+      border: 0;
+      width: 50px;
+      background-color: rgba(0, 0, 0, 0);
+      padding: 0;
+      color: #ddd;
+    }
+
+    .el-cascader__label {
+      padding: 0;
+      color: #ddd;
+      line-height: 30px;
+    }
+
+    .el-cascader {
+      padding: 0;
+    }
+
+    .el-cascader-menu {
+      min-width: 80px;
+    }
   }
-}
-@keyframes end {
-  0% {
-    opacity: 1;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-}
 
 </style>
