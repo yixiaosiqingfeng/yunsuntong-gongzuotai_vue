@@ -30,6 +30,7 @@ router.beforeEach(async(to, from, next) => {
       if (hasRoles) {
         if (getRoles()) {
           if (to.path === '/auth-redirect' || to.path === '/404') {
+            console.log(111111)
             next({ path: '/' })
             NProgress.done()
           } else {

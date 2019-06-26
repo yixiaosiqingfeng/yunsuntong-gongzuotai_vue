@@ -12,13 +12,17 @@
       <span class="ml10">一路乐逍遥直播...</span>
       <span class="ml10">下个节目:同步新空气</span>
       <span class="ml10">距离我的节目还有：12:55</span>
-      <el-button class="ml10" type="text" size="mini">进入直播间</el-button>
+      <router-link tag="a" target="_blank" :to="{path:'/studio/index'}">
+        <el-button class="ml10" type="text" size="mini">进入直播间</el-button>
+      </router-link>
+      <!--<el-button class="ml10" type="text" size="mini">进入直播间</el-button>-->
     </div>
     <div class="mr20" style="display:flex;align-items: center;">
       <div style="display:flex;align-items: center;">
         <span>城市:</span>
         <el-cascader
           v-model="value"
+          class="city_cascader"
           size="mini"
           :options="options"
           :show-all-levels="false"
@@ -42,7 +46,12 @@
       <el-button type="text" size="mini" @click="changeIden">切换身份</el-button>
       <el-button type="text" size="mini" @click="logout">退出系统</el-button>
     </div>
-    <div class="weather" :class="{tianqiOver:tianqiFlag,tianqiOut:!tianqiFlag}" @mouseover="tianqiFlag=true" @mouseout="tianqiFlag=false">
+    <div
+      class="weather"
+      :class="{tianqiOver:tianqiFlag,tianqiOut:!tianqiFlag}"
+      @mouseover="tianqiFlag=true"
+      @mouseout="tianqiFlag=false"
+    >
       <weather />
     </div>
   </div>
@@ -132,17 +141,20 @@ export default {
     z-index: 10000;
     /*background-color: rgba(25, 231, 239, 0.5);*/
     background-color: rgba(0, 0, 0, 0.5);
-    display:flex;
+    display: flex;
     align-items: center;
   }
-  .tianqi{
-    cursor:pointer;
+
+  .tianqi {
+    cursor: pointer;
   }
-  .tianqiOver{
+
+  .tianqiOver {
     transform: translateY(60px);
     transition: 0.8s;
   }
-  .tianqiOut{
+
+  .tianqiOut {
     transform: translateY(0);
     transition: 0.8s;
   }
@@ -150,7 +162,6 @@ export default {
 </style>
 <style lang="scss">
   .hedaer-nav {
-
     .el-input__inner {
       border: 0;
       width: 50px;
@@ -168,7 +179,6 @@ export default {
     .el-cascader {
       padding: 0;
     }
-
     .el-cascader-menu {
       min-width: 80px;
     }
