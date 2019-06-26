@@ -82,6 +82,23 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/studio',
+    component: Layout,
+    redirect: '/studio/index',
+    meta: {
+      title: 'sion',
+      roles: ['editor'] // or you can only set roles in sub nav
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/studio'),
+        name: 'studio',
+        meta: { title: 'Icons', icon: 'icon', roles: ['editor'] }
+      }
+    ]
+  },
+  {
     path: '/auth-redirect',
     component: () => import('@/views/login/auth-redirect'),
     // component: () => import('@/views/login/auth-redirect'),

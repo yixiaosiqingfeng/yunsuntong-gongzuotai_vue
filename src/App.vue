@@ -143,4 +143,28 @@ export default {
   .mb40 {
     margin-bottom: 40px;
   }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    /*height: 4px;*/
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 2px; /*滚动条的背景区域的圆角*/
+    background-color: #fff; /*滚动条的背景颜色*/
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 2px; /*滚动条的圆角*/
+    background-color: #ccc; /*滚动条的背景颜色*/
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0,0,0,0.3);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(0,0,0,0.3);
+    /*cursor: pointer;*/
+  }
 </style>
