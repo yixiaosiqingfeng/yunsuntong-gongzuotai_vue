@@ -143,7 +143,9 @@ export default {
   .mb40 {
     margin-bottom: 40px;
   }
-
+  .ft12{
+    font-size:12px;
+  }
   ::-webkit-scrollbar {
     width: 4px;
     /*height: 4px;*/
