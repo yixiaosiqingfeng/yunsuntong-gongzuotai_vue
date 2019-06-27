@@ -44,12 +44,13 @@
     </div>
     <!-- 帖子部分 -->
     <div class="infinite-list-wrapper" style="overflow-y:scroll;">
+      <div contenteditable="true" style="height:20px;" />
       <ul v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
-        <li v-for="(item,index) in dataArr" :key="index" class="mb5">
+        <li v-for="(item,index) in dataArr" :key="index" class="mb5" style="line-height:1.5rem;">
           <div style="display:flex;">
             <!-- 左侧头像 -->
-            <div style="width:80px;padding:10px;">
-              <div style="width:60px;height:60px;border-radius:50%;overflow:hidden;">
+            <div style="width:5rem;padding:0.625rem;">
+              <div style="width:3.75rem;height:3.75rem;border-radius:50%;overflow:hidden;">
                 <img
                   src="http://cdn.duitang.com/uploads/item/201601/08/20160108194244_JxGRy.thumb.700_0.jpeg"
                   alt
@@ -59,20 +60,21 @@
               </div>
             </div>
             <!-- 右侧帖子 -->
-            <div style="flex:1;padding:10px;line-height:18px;">
+            <div style="flex:1;padding:10px;">
+              <!--帖子标题信息-->
               <div class="mypost_center_top">
                 <div class="mypost_center_top_left">
                   <div>
-                    <span class="mr5">{{ item.name }}</span>
-                    <span class="ft12" style="color:#666;">18866668888</span>
+                    <span class="mr5 ftm14">{{ item.name }}</span>
                   </div>
-                  <div class="mt5">
-                    <span style="color:red;">#同步新空气#&nbsp;&nbsp;</span>
-                    <span class="ft12" style="color:#666;">12：20</span>
+                  <div class="">
+                    <span class="ftm14" style="color:red;">#同步新空气#&nbsp;&nbsp;</span>
+                    <span class="ftm14" style="color:#666;">12：20</span>
                   </div>
                 </div>
-                <div class="mypost_center_top_right">
-                  <div class="mypost_center_top_right_btn">
+                <!--操作按钮-->
+                <div>
+                  <div>
                     <el-tooltip class="item" effect="dark" content="置顶" placement="top">
                       <span class="iconfont icon-zhiding mr10" />
                     </el-tooltip>
@@ -85,27 +87,124 @@
                   </div>
                 </div>
               </div>
-
               <!-- 帖子内容 -->
-              <div ref="article">
-                <div class="mb10 mt10 ft12" style="color:#666;line-height:20px;">{{ value }}</div>
+              <div>
+                <div class="ftm16" style="color:#666;">{{ item.content }}</div>
               </div>
-              <div class="mypost_foot">
+              <!--操作按钮-->
+              <div class="mt5">
                 <el-tooltip class="item" effect="dark" content="点赞" placement="top">
                   <span class="iconfont icon-dianzan1">
-                    <span class="ft12" style="color:#999;">10</span>
+                    <span class="ftm12" style="color:#999;">10</span>
                   </span>
                 </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="评论" placement="top">
+                <el-tooltip class="item" effect="dark" content="评论" placement="top" @click.native="item.hidden=true">
                   <span class="iconfont icon-pinglun ml10">
-                    <span class="ft12" style="color:#999;">10</span>
+                    <span class="ftm12" style="color:#999;">110</span>
                   </span>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="转发" placement="top">
                   <span class="iconfont icon-zhuanfa ml10  mr10">
-                    <span class="ft12" style="color:#999;">10</span>
+                    <span class="ftm12" style="color:#999;">10</span>
                   </span>
                 </el-tooltip>
+              </div>
+              <!--1级回复框-->
+              <div style="background-color:#f5f5f5;padding:10px 20px;" class="mt10 custom_btn">
+                <div class="mt5" style="display:flex;">
+                  <div style="flex:1;">
+                    <el-input v-model="item.comments" placeholder="请输入内容">
+                      <template slot="suffix">
+                        <div class="" style="display:block;">
+                          <span class="iconfont icon-biaoqing1" style="color:green;font-size:20px;" />
+                        </div>
+                      </template>
+                    </el-input>
+                  </div>
+                  <div>
+                    <el-button type="success" @click="oneCommentsFn(item)">评论</el-button>
+                  </div>
+                </div>
+                <!--评论信息-->
+                <div v-show="item.hidden">
+                  <ul v-if="item.children&&item.children.length>0">
+                    <li v-for="(tim,i) in item.children" :key="i" class="mt10">
+                      <div style="display:flex;" class="mt20">
+                        <div style="display:flex;">
+                          <div style="width:2rem;height:2rem;border-radius:50%;overflow:hidden;">
+                            <img
+                              src="http://cdn.duitang.com/uploads/item/201601/08/20160108194244_JxGRy.thumb.700_0.jpeg"
+                              width="100%"
+                              height="100%"
+                              alt=""
+                            >
+                          </div>
+                          <span style="width:3.75rem;color:#444;" class="ml10 ftm14">{{ tim.name }}</span>
+                        </div>
+                        <div class="ftm14" style="border-bottom:1px solid #eee;flex:1;color:#666;">
+                          <span>{{ tim.content }}</span>
+                          <!--回复-->
+                          <div class="mt5" style="color:#777;display:flex;justify-content: space-between;">
+                            <span>07:23</span>
+                            <span>
+                              <span class="ftm12" onselectstart="return false" style="cursor:pointer;" @click="tim.hidden=true">回复</span>
+                              <span class="iconfont icon-dianzan1 ftm14" />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <!--三级评论-->
+                      <ul v-if="tim.children&&tim.children.length>0" style="margin-left:6.56rem;">
+                        <li v-for="(tom,a) in tim.children" :key="a" class="mt10">
+                          <div style="display:flex;">
+                            <div style="display:flex;">
+                              <div style="width:2rem;height:2rem;border-radius:50%;overflow:hidden;">
+                                <img
+                                  src="http://cdn.duitang.com/uploads/item/201601/08/20160108194244_JxGRy.thumb.700_0.jpeg"
+                                  width="100%"
+                                  height="100%"
+                                  alt=""
+                                >
+                              </div>
+                              <span
+                                style="width:3.75rem;color:#444;cursor:pointer;"
+                                class="ml10 ftm14"
+                                onselectstart="return false"
+                                @dblclick="getName(tim,tom.name)"
+                              >{{ tom.name }}</span>
+                            </div>
+                            <div class="ftm14" style="border-bottom:1px solid #eee;flex:1;color:#666;">
+                              <span>{{ tom.content }}</span>
+                              <!--回复-->
+                              <div class="mt5" style="color:#777;display:flex;justify-content: space-between;">
+                                <span>07:23</span>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <!--二级回复框-->
+                      <div v-show="tim.hidden" class="mt5 custom_btn" style="display:flex;margin-left:6.56rem;">
+                        <div style="flex:1;">
+                          <el-input v-model="tim.comments" placeholder="请输入内容">
+                            <template slot="suffix">
+                              <div class="" style="display:block;">
+                                <span class="iconfont icon-biaoqing1" style="color:green;font-size:20px;" />
+                              </div>
+                            </template>
+                          </el-input>
+                        </div>
+                        <div>
+                          <el-button type="success" @click="twoCommentsFn(tim)">评论</el-button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="tac mt5" style="color:#999;">
+                    查看更多
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -122,6 +221,7 @@ export default {
   name: 'Index',
   data() {
     return {
+      vale: '',
       // 搜索框内容
       input: '',
       // 排序
@@ -132,22 +232,51 @@ export default {
       // 帖子
       dataArr: [
         {
-          name: '张三'
+          name: '张三',
+          content: '撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错深V参数爱搜',
+          hidden: false,
+          comments: '',
+          children: [
+            {
+              name: '周某人',
+              content: '看热个看热个够就是看热个够就是大看热个够就是大大看热个够就是大看热个够就是大看热个够就是看热个够就是大看热个够就是大大够看热个够就是大就是看热个够就是大大V',
+              children: [
+                {
+                  name: '年某人',
+                  content: '程度反而被小城镇把个你看见行政村'
+                },
+                {
+                  name: '钱某人',
+                  content: '程度反而被小城镇把个你看见行政村'
+                }
+              ],
+              hidden: false,
+              comments: ''
+            },
+            {
+              name: '李某人',
+              content: '看委管托管人将文件',
+              hidden: false,
+              comments: ''
+            }
+          ]
         },
         {
-          name: '张三'
+          name: '张三',
+          hidden: false,
+          content: '哈哈哈ID深V破碎的覅偶怕我放到个就是大V扫已服务器',
+          comments: ''
         },
         {
-          name: '张三'
+          name: '张三',
+          hidden: false,
+          content: '个看到数据库vreg9i90股份类别离开神盾局刹车时间',
+          comments: ''
         }
       ],
       loading: false,
       artWidth: 500,
-      count: 0,
-      value:
-          '撒一我IEufuoreuhU盾深V实地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱深V实的错撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱搜草四川"\n' +
-          '    };的错撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱搜草四川"\n' +
-          '    };地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错撒返回的深V参数爱搜的成绩搜爱车爱搜草四川'
+      count: 0
     }
   },
   computed: {
@@ -164,8 +293,39 @@ export default {
     this.restaurants = this.loadAll()
   },
   methods: {
+    oneCommentsFn(obj) {
+      if (!obj.children) {
+        this.$set(obj, 'children', [])
+      }
+      obj.children.unshift(
+        {
+          name: '李某人',
+          content: obj.comments,
+          hidden: false,
+          comments: ''
+        }
+      )
+      obj.comments = ''
+    },
+    twoCommentsFn(obj) {
+      if (!obj.children) {
+        this.$set(obj, 'children', [])
+      }
+      obj.children.unshift(
+        {
+          name: '李某人',
+          content: obj.comments,
+          hidden: false,
+          comments: ''
+        }
+      )
+      obj.comments = ''
+    },
+    getName(obj, name) {
+      obj.comments = '@' + name + '：'
+      return false
+    },
     load() {
-      console.log(111)
       this.loading = true
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
@@ -174,13 +334,6 @@ export default {
         }
         this.loading = false
       }, 2000)
-    },
-    getAttrFn() {
-      const abj = this.$refs.article
-      const H = getComputedStyle(abj[0], false)['height']
-      const W = getComputedStyle(abj[0], false)['width']
-      this.artWidth = W
-      console.log(H)
     },
     // 控制点击效果
     changColor(item, idx) {
@@ -299,14 +452,10 @@ export default {
     align-items: center;
     justify-content: space-between;
   }
-  .infinite-list-wrapper .iconfont {
-    font-size: 20px;
-    cursor: pointer;
-  }
 
-  .mypost_foot {
-    display: flex;
-    justify-content: flex-end;
+  .infinite-list-wrapper .iconfont {
+    cursor: pointer;
+    font-size: 1.1rem;
   }
 
   /* 原效果 */
@@ -322,13 +471,6 @@ export default {
   .infinite-list-wrapper ul {
     margin: 0;
     padding: 0;
-  }
-
-  .abc {
-    max-width: 918px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   /* 搜索框 */
@@ -349,6 +491,23 @@ export default {
       .highlighted .addr {
         color: #ddd;
       }
+    }
+  }
+
+</style>
+<style lang="scss">
+  .custom_btn {
+    .el-input__suffix {
+      display: flex;
+      align-items: center;
+    }
+    .el-input__inner {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .el-button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
   }
 </style>

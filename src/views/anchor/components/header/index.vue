@@ -15,7 +15,14 @@
       <router-link tag="a" target="_blank" :to="{path:'/studio/index'}">
         <el-button class="ml10" type="text" size="mini">进入直播间</el-button>
       </router-link>
+
       <!--<el-button class="ml10" type="text" size="mini">进入直播间</el-button>-->
+    </div>
+    <div class="block" style="display:flex;align-items: center;">
+      <span class="demonstration" style="width:70px;">字体设置</span>
+      <div style="width:100px;">
+        <el-slider v-model="value2" :min="16" :max="35" />
+      </div>
     </div>
     <div class="mr20" style="display:flex;align-items: center;">
       <div style="display:flex;align-items: center;">
@@ -65,6 +72,7 @@ export default {
   components: { weather },
   data() {
     return {
+      value2: 16,
       weatherFlag: false,
       tianqiFlag: false,
       value: [
@@ -96,6 +104,12 @@ export default {
           ]
         }
       ]
+    }
+  },
+  watch: {
+    value2() {
+      const html = document.getElementsByTagName('html')[0]
+      html.style.fontSize = this.value2 + 'px'
     }
   },
   methods: {

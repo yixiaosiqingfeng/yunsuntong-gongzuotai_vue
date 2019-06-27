@@ -146,6 +146,15 @@ export default {
   .ft12{
     font-size:12px;
   }
+  .ftm12{
+    font-size:0.75rem;
+  }
+  .ftm14{
+    font-size:0.875rem;
+  }
+  .ftm16{
+    font-size:1rem;
+  }
   ::-webkit-scrollbar {
     width: 4px;
     /*height: 4px;*/

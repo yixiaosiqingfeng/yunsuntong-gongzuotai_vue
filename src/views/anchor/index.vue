@@ -4,14 +4,24 @@
       <oheader />
     </div>
     <div class="bigBox" style="margin-top:15px;">
-      <div class="box" style="position:relative;background-color:#fff;margin:0 10px;min-width:300px;" :style="{width:leftW+'px'}">
+      <div
+        ref="leftBox"
+        class="box"
+        style="position:relative;background-color:#fff;margin:0 10px;min-width:300px;"
+        :style="{width:leftW+'px'}"
+      >
         <div style="position:absolute;right:-15px;top:0;bottom:0;width:15px;cursor:e-resize;" @mousedown="leftMove" />
         <leftBody />
       </div>
-      <div class="box" style="flex:1;background-color:#fff;margin:0 5px;min-width:600px;">
+      <div class="box" style="flex:1;background-color:#fff;margin:0 5px;min-width:800px;">
         <centerBody />
       </div>
-      <div class="box" style="position:relative;background-color:#fff;margin:0 10px;min-width:300px;" :style="{width:rightW+'px'}">
+      <div
+        ref="rightBox"
+        class="box"
+        style="position:relative;background-color:#fff;margin:0 10px;min-width:300px;"
+        :style="{width:rightW+'px'}"
+      >
         <div style="position:absolute;left:-15px;top:0;bottom:0;width:15px;cursor:e-resize;" @mousedown="rightMove" />
         <rightBody />
       </div>
@@ -39,18 +49,13 @@ export default {
       const event = ev || window.event
       const disX = event.clientX
       const _this = this
-      const initX = this.leftW
+      const objLeft = this.$refs.leftBox
+      const initX = parseInt(getComputedStyle(objLeft, false)['width'])
       document.onmousemove = function(ev) {
         const event = ev || window.event
         const X = event.clientX
         const l = X - disX
-        if (_this.leftW < 300) {
-          if (l >= 0) {
-            _this.leftW = initX + l
-          }
-        } else {
-          _this.leftW = initX + l
-        }
+        _this.leftW = initX + l
         return false
       }
       document.onmouseup = function() {
@@ -62,18 +67,13 @@ export default {
       const event = ev || window.event
       const disX = event.clientX
       const _this = this
-      const initX = this.rightW
+      const objright = this.$refs.rightBox
+      const initX = parseInt(getComputedStyle(objright, false)['width'])
       document.onmousemove = function(ev) {
         const event = ev || window.event
         const X = event.clientX
         const l = X - disX
-        if (_this.rightW < 300) {
-          if (l <= 0) {
-            _this.rightW = initX + (-l)
-          }
-        } else {
-          _this.rightW = initX + (-l)
-        }
+        _this.rightW = initX + (-l)
         return false
       }
       document.onmouseup = function() {
