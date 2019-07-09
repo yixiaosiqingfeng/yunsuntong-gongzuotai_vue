@@ -44,7 +44,6 @@
     </div>
     <!-- 帖子部分 -->
     <div class="infinite-list-wrapper" style="overflow-y:scroll;">
-      <div contenteditable="true" style="height:20px;" />
       <ul v-infinite-scroll="load" class="list" infinite-scroll-disabled="disabled">
         <li v-for="(item,index) in dataArr" :key="index" class="mb5" style="line-height:1.5rem;">
           <div style="display:flex;">
@@ -94,11 +93,11 @@
               <!--操作按钮-->
               <div class="mt5">
                 <el-tooltip class="item" effect="dark" content="点赞" placement="top">
-                  <span class="iconfont icon-dianzan1">
+                  <span class="iconfont icon-dianzan1" :class="{agreeColor:item.agree}" @click="agreeFn(item)">
                     <span class="ftm12" style="color:#999;">10</span>
                   </span>
                 </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="评论" placement="top" @click.native="item.hidden=true">
+                <el-tooltip class="item" effect="dark" content="评论" placement="top" @click.native="item.hidden=!item.hidden">
                   <span class="iconfont icon-pinglun ml10">
                     <span class="ftm12" style="color:#999;">110</span>
                   </span>
@@ -129,51 +128,56 @@
                 <div v-show="item.hidden">
                   <ul v-if="item.children&&item.children.length>0">
                     <li v-for="(tim,i) in item.children" :key="i" class="mt10">
-                      <div style="display:flex;" class="mt20">
+                      <div style="" class="mt20">
                         <div style="display:flex;">
-                          <div style="width:2rem;height:2rem;border-radius:50%;overflow:hidden;">
-                            <img
-                              src="http://cdn.duitang.com/uploads/item/201601/08/20160108194244_JxGRy.thumb.700_0.jpeg"
-                              width="100%"
-                              height="100%"
-                              alt=""
-                            >
+                          <div style="width:2rem;">
+                            <div style="width:1.5rem;height:1.5rem;margin:auto;border-radius:50%;overflow:hidden;">
+                              <img
+                                src="http://cdn.duitang.com/uploads/item/201601/08/20160108194244_JxGRy.thumb.700_0.jpeg"
+                                width="100%"
+                                height="100%"
+                                alt=""
+                              >
+                            </div>
                           </div>
-                          <span style="width:3.75rem;color:#444;" class="ml10 ftm14">{{ tim.name }}</span>
-                        </div>
-                        <div class="ftm14" style="border-bottom:1px solid #eee;flex:1;color:#666;">
-                          <span>{{ tim.content }}</span>
-                          <!--回复-->
-                          <div class="mt5" style="color:#777;display:flex;justify-content: space-between;">
-                            <span>07:23</span>
-                            <span>
-                              <span class="ftm12" onselectstart="return false" style="cursor:pointer;" @click="tim.hidden=true">回复</span>
-                              <span class="iconfont icon-dianzan1 ftm14" />
-                            </span>
+                          <div style="flex:1;">
+                            <span style="width:3.75rem;color:#444;" class=" ftm14">{{ tim.name }}</span>
+                            <div class="ftm14" style="border-bottom:1px solid #eee;flex:1;color:#666;">
+                              <span>{{ tim.content }}</span>
+                              <!--回复-->
+                              <div class="mt5" style="color:#777;display:flex;align-items: center;">
+                                <span>07:23</span>
+                                <div>
+                                  <span
+                                    class="ftm12 ml10"
+                                    onselectstart="return false"
+                                    style="cursor:pointer;"
+                                    @click="tim.hidden=true"
+                                  >回复</span>
+                                  <span class="iconfont icon-dianzan1 ftm14" />
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
+
                       </div>
                       <!--三级评论-->
                       <ul v-if="tim.children&&tim.children.length>0" style="margin-left:6.56rem;">
                         <li v-for="(tom,a) in tim.children" :key="a" class="mt10">
                           <div style="display:flex;">
                             <div style="display:flex;">
-                              <div style="width:2rem;height:2rem;border-radius:50%;overflow:hidden;">
-                                <img
-                                  src="http://cdn.duitang.com/uploads/item/201601/08/20160108194244_JxGRy.thumb.700_0.jpeg"
-                                  width="100%"
-                                  height="100%"
-                                  alt=""
-                                >
-                              </div>
                               <span
-                                style="width:3.75rem;color:#444;cursor:pointer;"
-                                class="ml10 ftm14"
+                                style="color:coral;cursor:pointer;"
+                                class=" ftm14"
                                 onselectstart="return false"
                                 @dblclick="getName(tim,tom.name)"
-                              >{{ tom.name }}</span>
+                              >{{ tom.name }}：</span>
                             </div>
-                            <div class="ftm14" style="border-bottom:1px solid #eee;flex:1;color:#666;">
+                            <div
+                              class="ftm14"
+                              style="border-bottom:1px solid #eee;flex:1;color:#666;word-break:break-all;"
+                            >
                               <span>{{ tom.content }}</span>
                               <!--回复-->
                               <div class="mt5" style="color:#777;display:flex;justify-content: space-between;">
@@ -200,8 +204,13 @@
                       </div>
                     </li>
                   </ul>
-                  <div class="tac mt5" style="color:#999;">
-                    查看更多
+                  <div v-if="item.children&&item.children.length>0" style="color:#999;">
+                    <div v-show="item.count-item.children.length>0" class="tac mt5" @click="getComment(item)">
+                      <span style="cursor:pointer;">还有{{ item.count-item.children.length }}信息</span>
+                    </div>
+                    <div v-show="item.count-item.children.length<=0" class="tac mt5">
+                      <span>没有更多了</span>
+                    </div>
                   </div>
                 </div>
 
@@ -234,8 +243,12 @@ export default {
         {
           name: '张三',
           content: '撒返回的深V参数爱搜的成绩搜爱车爱深V实地热管热佛奥我的错深V参数爱搜',
-          hidden: false,
-          comments: '',
+          hidden: true, // 展示或隐藏消息
+          comments: '', // 评论的信息
+          count: 10, // 评论总数
+          agree: false, // 是否点赞
+          page: 1.0, // 当前第几页
+          caina: '', // 是否采纳
           children: [
             {
               name: '周某人',
@@ -243,14 +256,14 @@ export default {
               children: [
                 {
                   name: '年某人',
-                  content: '程度反而被小城镇把个你看见行政村'
+                  content: '程度反而被小城镇把个够就是看热个够就是大看热个够就是大大看热个够就是大看你看见行政村'
                 },
                 {
                   name: '钱某人',
                   content: '程度反而被小城镇把个你看见行政村'
                 }
               ],
-              hidden: false,
+              hidden: true,
               comments: ''
             },
             {
@@ -259,17 +272,19 @@ export default {
               hidden: false,
               comments: ''
             }
-          ]
+          ] // 回复数量
         },
         {
           name: '张三',
-          hidden: false,
+          hidden: true,
+          count: 0,
           content: '哈哈哈ID深V破碎的覅偶怕我放到个就是大V扫已服务器',
           comments: ''
         },
         {
           name: '张三',
           hidden: false,
+          count: 0,
           content: '个看到数据库vreg9i90股份类别离开神盾局刹车时间',
           comments: ''
         }
@@ -293,7 +308,16 @@ export default {
     this.restaurants = this.loadAll()
   },
   methods: {
+    agreeFn(obj) {
+      obj.agree = !obj.agree
+      console.log(obj)
+    },
+    getComment(obj) {
+      console.log(obj)
+    },
     oneCommentsFn(obj) {
+      obj.count++
+      console.log(obj)
       if (!obj.children) {
         this.$set(obj, 'children', [])
       }
@@ -494,6 +518,9 @@ export default {
     }
   }
 
+  .agreeColor {
+    color: red;
+  }
 </style>
 <style lang="scss">
   .custom_btn {

@@ -36,6 +36,7 @@ export default {
   },
   methods: {
     changeText() {
+      console.log(this.$el.innerHTML, 6666)
       this.$emit('input', this.$el.innerHTML)
     }
   }
@@ -51,7 +52,7 @@ export default {
     user-select: text;
     white-space: pre-wrap;
     text-align: left;
-    &[contenteditable=true]{
+    &[contenteditable=true] {
       user-modify: read-write-plaintext-only;
       &:empty:before {
         content: attr(placeholder);

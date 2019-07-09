@@ -14,7 +14,7 @@ export default {
   components: { test },
   data() {
     return {
-      value: 'dsfcw<img src="sdcsd" alt="asda">efc'
+      value: ''
     }
   },
   watch: {
