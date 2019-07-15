@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken, getRoles, removeRoles } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 import { decrypt, encryption } from '@/utils/crypto'
@@ -98,16 +98,16 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        removeRoles()
-        resetRouter()
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      // logout(state.token).then(() => {
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      removeToken()
+      removeRoles()
+      resetRouter()
+      resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 
