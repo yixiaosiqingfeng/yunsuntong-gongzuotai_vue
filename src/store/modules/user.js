@@ -1,7 +1,7 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken, getRoles, removeRoles } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
-import { decrypt } from '@/utils/crypto'
+import { decrypt, encryption } from '@/utils/crypto'
 
 const state = {
   token: getToken(),
@@ -34,10 +34,11 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      console.log(encryption(password), 78878)
+      login({ data: { username: username.trim(), password: encryption(password) }, code: '3008' }).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        commit('SET_TOKEN', data)
+        setToken(data)
         resolve()
       }).catch(error => {
         reject(error)
@@ -55,10 +56,10 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { menus, name, avatar, introduction } = data
 
         // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
+        if (!menus || menus.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
         }
 
@@ -66,13 +67,13 @@ const actions = {
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
         let rolesArr = null
-        if (roles.length > 1) {
+        if (menus.length > 1) {
           rolesArr = ['admin']
           commit('SET_ROLES', ['admin'])
-        } else if (roles.includes('hoster')) {
+        } else if (menus.includes('hoster')) {
           rolesArr = ['hoster']
           commit('SET_ROLES', ['hoster'])
-        } else if (roles.includes('editor')) {
+        } else if (menus.includes('editor')) {
           rolesArr = ['editor']
           commit('SET_ROLES', ['editor'])
         }
